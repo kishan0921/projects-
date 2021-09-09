@@ -1,0 +1,82 @@
+
+https://www.youtube.com/watch?v=TscSA7QRf-g    
+------------------------------------------------------------------------------------------------------
+index.html
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <input type="text" class="inputTxt" placeholder="Enter City....."> <br>
+        <input type="submit" value="Submit" class="btn">
+
+        <!-- For Show Details -->
+        <div class="showData"></div>
+        
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+main.js
+
+
+
+//Get All Values
+const inputTxt = document.querySelector('.inputTxt');
+var button = document.querySelector('.btn');
+const showData = document.querySelector('.showData');
+
+
+//Get API Key By Login To OpenWeather.org
+const API_Key = "c07370e6b487616ac0963a2903859db2";
+
+
+
+//Now Add Event Listener
+button.addEventListener('click', () => {
+
+    //Get Input Value
+    const cityInput = inputTxt.value;
+    // console.log(cityInput);
+
+    //Now Fetch Through Get API 
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityInput}&units=metric&APPID=${API_Key}`)
+        .then(res => res.json())
+        .then(data => {
+            // console.log(data);
+
+            //When Fill Input Field Then Clear Input Field
+            inputTxt.value = " ";
+
+            //Now Show All Data Value
+            showData.innerHTML = `
+                                <ul>
+                                    <li class="desc">${data.weather[0].description}</li>
+                                    <li class="city">${data.name}</li>
+                                    <li class="temp">${data.main.temp}°c</li>
+                                </ul>
+                                `; 
+
+        });
+
+});
